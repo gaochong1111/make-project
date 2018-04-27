@@ -4,7 +4,8 @@
 
 include ../../Make.properties
 
-all: f1.o
+OBJS = $(subst .cpp,.o,$(wildcard *.cpp))
+all: $(OBJS)
 
 $(DEPS):
 	$(CC) -c $^ $(CPPFLAGS)

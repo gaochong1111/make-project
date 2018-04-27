@@ -3,15 +3,14 @@
 #
 include ../Make.properties
 TARGET=libtest.a
+
 # subdirs
-F1_PATH=f1
-F2_PATH=f2
-SUBDIRS=$(F1_PATH) $(F2_PATH)
+SUBDIRS=$(foreach dir,$(shell find . -mindepth 1 -type d),$(shell echo $(dir) ' '))
+
 
 # objs
-F1_OBJS=$(F1_PATH)/f1.o
-F2_OBJS=$(F2_PATH)/f2.o
-TEST_OBJS=$(F2_OBJS) $(F1_OBJS)
+ALL_OBJS = $(subst .cpp,.o,$(foreach dir,$(SUBDIRS),$(wildcard $(dir)/*.cpp)))
+
 
 all: subdirs $(TARGET)
 	mv $(TARGET) $(DISTDIR)
@@ -23,7 +22,7 @@ subdirs:
 		echo "<=== $$i"; \
 	done
 
-$(TARGET):$(TEST_OBJS)
+$(TARGET):$(ALL_OBJS)
 	ar -r $@ $^
 
 .PHONY:clean

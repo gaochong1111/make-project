@@ -3,9 +3,14 @@ include ../../Make.properties
 TARGET=runf2
 SRC=./src/runf2.cpp
 
+
+
 all:
-	$(CC) -o $(TARGET) $(SRC) $(CPPFLAGS) -L$(DISTDIR) -ltest
+ifeq ($(shell find bin),)
 	mkdir bin
+endif
+	$(CC) -o $(TARGET) $(SRC) $(CPPFLAGS) -L$(DISTDIR) -ltest
+	
 	mv $(TARGET) ./bin
 
 clean:
